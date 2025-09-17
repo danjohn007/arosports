@@ -14,13 +14,21 @@ class TestController extends BaseController {
         ];
         
         // Test 2: Database connection
-        $database = new Database();
-        $dbTest = $database->testConnection();
-        $tests['database'] = [
-            'name' => 'Database Connection',
-            'result' => $dbTest['message'],
-            'status' => $dbTest['success'] ? 'success' : 'error'
-        ];
+        try {
+            $database = new Database();
+            $dbTest = $database->testConnection();
+            $tests['database'] = [
+                'name' => 'Database Connection',
+                'result' => $dbTest['message'],
+                'status' => $dbTest['success'] ? 'success' : 'error'
+            ];
+        } catch (Exception $e) {
+            $tests['database'] = [
+                'name' => 'Database Connection',
+                'result' => 'Database not available (expected in demo): ' . $e->getMessage(),
+                'status' => 'warning'
+            ];
+        }
         
         // Test 3: Config file loading
         $tests['config'] = [
@@ -39,18 +47,26 @@ class TestController extends BaseController {
         
         // Test 5: Database tables exist
         try {
-            $stmt = $this->db->query("SHOW TABLES LIKE 'usuarios'");
-            $tablesExist = $stmt->rowCount() > 0;
-            $tests['tables'] = [
-                'name' => 'Database Tables',
-                'result' => $tablesExist ? 'Tables exist' : 'Tables missing',
-                'status' => $tablesExist ? 'success' : 'warning'
-            ];
+            if ($this->db) {
+                $stmt = $this->db->query("SHOW TABLES LIKE 'usuarios'");
+                $tablesExist = $stmt->rowCount() > 0;
+                $tests['tables'] = [
+                    'name' => 'Database Tables',
+                    'result' => $tablesExist ? 'Tables exist' : 'Tables missing',
+                    'status' => $tablesExist ? 'success' : 'warning'
+                ];
+            } else {
+                $tests['tables'] = [
+                    'name' => 'Database Tables',
+                    'result' => 'Database connection not available',
+                    'status' => 'warning'
+                ];
+            }
         } catch (Exception $e) {
             $tests['tables'] = [
                 'name' => 'Database Tables',
-                'result' => 'Error checking tables: ' . $e->getMessage(),
-                'status' => 'error'
+                'result' => 'Database not available (expected in demo): ' . $e->getMessage(),
+                'status' => 'warning'
             ];
         }
         

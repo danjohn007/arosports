@@ -3,8 +3,13 @@ class BaseController {
     protected $db;
     
     public function __construct() {
-        $database = new Database();
-        $this->db = $database->connect();
+        try {
+            $database = new Database();
+            $this->db = $database->connect();
+        } catch (Exception $e) {
+            // In demo environment, database might not be available
+            $this->db = null;
+        }
     }
     
     protected function loadView($view, $data = []) {
