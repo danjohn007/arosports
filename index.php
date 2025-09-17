@@ -1,4 +1,9 @@
 <?php
+// Session configuration - must be set before session_start()
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_secure', 0); // Set to 1 if using HTTPS
+
 session_start();
 require_once 'config/config.php';
 require_once 'config/database.php';
