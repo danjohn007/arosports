@@ -12,9 +12,12 @@ define('APP_VERSION', '1.0.0');
 
 // Session configuration
 // ¡IMPORTANTE! Este archivo debe incluirse ANTES de cualquier session_start()
-ini_set('session.cookie_httponly', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 0); // Cambia a 1 si usas HTTPS
+// Verificar que la sesión no esté activa antes de configurar ini_set para evitar warnings
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.use_only_cookies', 1);
+    ini_set('session.cookie_secure', 0); // Cambia a 1 si usas HTTPS
+}
 
 // Timezone
 date_default_timezone_set('America/Mexico_City');
