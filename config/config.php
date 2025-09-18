@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'arosports');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'fix360_arosports');
+define('DB_USER', 'fix360_arosports');
+define('DB_PASS', 'Danjohn007!');
 define('DB_CHARSET', 'utf8mb4');
 
 // Application configuration
@@ -11,9 +11,10 @@ define('APP_NAME', 'Arosports Dashboard');
 define('APP_VERSION', '1.0.0');
 
 // Session configuration
+// ¡IMPORTANTE! Este archivo debe incluirse ANTES de cualquier session_start()
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 0); // Set to 1 if using HTTPS
+ini_set('session.cookie_secure', 0); // Cambia a 1 si usas HTTPS
 
 // Timezone
 date_default_timezone_set('America/Mexico_City');
