@@ -78,6 +78,11 @@ $currentUrl = $_SERVER['REQUEST_URI'];
 $basePath = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
 $currentUrl = str_replace($basePath, '', $currentUrl);
 
+// Handle direct access to index.php
+if ($currentUrl === '/index.php' || $currentUrl === 'index.php') {
+    $currentUrl = '';
+}
+
 // Route the request
 $route = $router->route($currentUrl);
 
